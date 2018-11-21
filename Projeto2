@@ -1,0 +1,88 @@
+typedef struct
+{
+    int Codigodoveiculo;
+    char Carro[15];
+    char Marca[15];
+    int AnoFabricacao;
+    int AnoModelo;
+    char Cor[15];
+    int Km;
+    char ArCond[];
+    char DirecaoHidraulica[];
+    float Preco;
+    char Datadecaentrada[9];
+}infocarro;
+
+#include<stdio.h>
+
+void cadastroCarro(infocarro)
+{
+    printf("Qual o codigo do veiculo?\n");
+    scanf("%d", &Codigodoveiculo);
+    getchar();
+    printf("Qual o nome do veiculo?\n");
+    scanf("%c", &Carro);
+    getchar();
+    printf("Qual a marca do veiculo?\n");
+    scanf("%c", &Marca);
+    printf("Qual o ano de fabricacao do veiculo?\n");
+    scanf("%d", &AnoFabricacao);
+    printf("Qual o ano do modelo do veiculo?\n");
+    scanf("%d", &AnoModelo);
+    getchar();
+    printf("Qual a cor do veiculo?\n");
+    scanf("%c", &Cor);
+    printf("Quantos km rodados tem o veiculo?\n");
+    scanf("%d", &Km);
+    getchar();
+    printf("Qual o ar-condicionado do veiculo?\n");
+    scanf("%c", &ArCond);
+    getchar();
+    printf("Qual a direcao hidraulica do veiculo?\n");
+    scanf("%c", &DirecaoHidraulica);
+    printf("Qual o preco do veiculo?\n");
+    scanf("%f", &Preco);
+    getchar();
+    printf("Qual a data do cadastro/entrada? No formato DD/MM/AA.\n");
+    scanf("%c", &Datadecaentrada);
+
+}
+
+int main()
+{
+    infocarro array[1];
+    int escolha;
+
+    printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
+           "2. INCLUIR DADOS NO CADASTRO EXISTENTE\n"
+           "3. CONSULTAR O CADASTRO POR CODIGO DE VEICULO\n"
+           "4. CONSULTAR O CADASTRO POR CATEGORIA E ANO DO MODELO\n"
+           "5. GERAR ARQUIVO TXT DOS VEICULOS 0 KM\n"
+           "6. SAIR");
+
+    scanf("%d",&escolha);
+    while((escolha < 1) && (escolha > 6))
+    {
+        printf("Opcao invalida\n");
+        scanf("%d", &escolha);
+    }
+
+    switch(escolha)
+    {
+        case 1
+            cadastroCarro();
+        break;
+        /*case 2
+        break;
+        case 3
+        break;
+        case 4
+        break;
+        case 5
+        break;
+        case 6
+        break;*/
+    }
+
+    return 0;
+}
