@@ -15,43 +15,43 @@ typedef struct
 
 #include<stdio.h>
 
-void cadastroCarro(infocarro)
+void cadastroCarro(infocarro f[], int i)
 {
     printf("Qual o codigo do veiculo?\n");
-    scanf("%d", &Codigodoveiculo);
+    scanf("%d", &f[i].Codigodoveiculo);
     getchar();
     printf("Qual o nome do veiculo?\n");
-    scanf("%c", &Carro);
+    scanf("%c", f[i].Carro);
     getchar();
     printf("Qual a marca do veiculo?\n");
-    scanf("%c", &Marca);
+    scanf("%c", f[i].Marca);
     printf("Qual o ano de fabricacao do veiculo?\n");
-    scanf("%d", &AnoFabricacao);
+    scanf("%d", &f[i].AnoFabricacao);
     printf("Qual o ano do modelo do veiculo?\n");
-    scanf("%d", &AnoModelo);
+    scanf("%d", &f[i].AnoModelo);
     getchar();
     printf("Qual a cor do veiculo?\n");
-    scanf("%c", &Cor);
+    scanf("%c", f[i].Cor);
     printf("Quantos km rodados tem o veiculo?\n");
-    scanf("%d", &Km);
+    scanf("%d", &f[i].Km);
     getchar();
     printf("Qual o ar-condicionado do veiculo?\n");
-    scanf("%c", &ArCond);
+    scanf("%c", f[i].ArCond);
     getchar();
     printf("Qual a direcao hidraulica do veiculo?\n");
-    scanf("%c", &DirecaoHidraulica);
+    scanf("%c", f[i].DirecaoHidraulica);
     printf("Qual o preco do veiculo?\n");
-    scanf("%f", &Preco);
+    scanf("%f", &f[i].Preco);
     getchar();
     printf("Qual a data do cadastro/entrada? No formato DD/MM/AA.\n");
-    scanf("%c", &Datadecaentrada);
+    scanf("%c", f[i].Datadecaentrada);
 
 }
 
 int main()
 {
     infocarro array[1];
-    int escolha;
+    int escolha,cadastro = 1;
 
     printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
            "2. INCLUIR DADOS NO CADASTRO EXISTENTE\n"
@@ -70,7 +70,7 @@ int main()
     switch(escolha)
     {
         case 1
-            cadastroCarro();
+            cadastroCarro(array, cadastro);
         break;
         /*case 2
         break;
