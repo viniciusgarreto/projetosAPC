@@ -7,20 +7,23 @@ typedef struct
     int AnoModelo;
     char Cor[15];
     int Km;
-    char ArCond[100];
-    char DirecaoHidraulica[100];
+    char ArCond;
+    char DirecaoHidraulica;
     float Preco;
     char Datadecaentrada[9];
 }infocarro;
 
 #include<stdio.h>
+#include <stdlib.h>
+#include<string.h>
 
 void cadastroCarro(infocarro f[], int i)
 {
     char op;
     do
     {
-        /*printf("Qual o codigo do veiculo?\n");
+        system ("clear");
+        printf("Qual o codigo do veiculo?\n");
         scanf("%d", &f[i].Codigodoveiculo);
         getchar();
         printf("Qual o nome do veiculo?\n");
@@ -39,15 +42,15 @@ void cadastroCarro(infocarro f[], int i)
         scanf("%d", &f[i].Km);
         getchar();
         printf("Qual o ar-condicionado do veiculo?\n");
-        scanf("%s", f[i].ArCond);
+        scanf("%c", &f[i].ArCond);
         getchar();
         printf("Qual a direcao hidraulica do veiculo?\n");
-        scanf("%s", f[i].DirecaoHidraulica);
-        /*printf("Qual o preco do veiculo?\n");
+        scanf("%c", &f[i].DirecaoHidraulica);
+        printf("Qual o preco do veiculo?\n");
         scanf("%f", &f[i].Preco);
         getchar();
         printf("Qual a data do cadastro/entrada? No formato DD/MM/AA.\n");
-        scanf("%s", f[i].Datadecaentrada);*/
+        scanf("%s", f[i].Datadecaentrada);
         getchar();
         printf("Deseja incluir um novo veiculo?\nS - SIM\nN - NAO\n");
         scanf("%c",&op);
@@ -67,10 +70,11 @@ void cadastroCarro(infocarro f[], int i)
 int main()
 {
     infocarro array[1];
-    int escolha,cadastro = 1;
+    int escolha,cadastro = 0;
 
     do
     {
+        system ("clear");
         printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
                "2. INCLUIR DADOS NO CADASTRO EXISTENTE\n"
                "3. CONSULTAR O CADASTRO POR CODIGO DE VEICULO\n"
@@ -98,6 +102,9 @@ int main()
             break;
             case 5
             break;*/
+            case 6:
+            default:
+                break;
         }
     }while(escolha!=6);
 
