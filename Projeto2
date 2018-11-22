@@ -7,8 +7,8 @@ typedef struct
     int AnoModelo;
     char Cor[15];
     int Km;
-    char ArCond[];
-    char DirecaoHidraulica[];
+    char ArCond[100];
+    char DirecaoHidraulica[100];
     float Preco;
     char Datadecaentrada[9];
 }infocarro;
@@ -17,35 +17,51 @@ typedef struct
 
 void cadastroCarro(infocarro f[], int i)
 {
-    printf("Qual o codigo do veiculo?\n");
-    scanf("%d", &f[i].Codigodoveiculo);
-    getchar();
-    printf("Qual o nome do veiculo?\n");
-    scanf("%c", f[i].Carro);
-    getchar();
-    printf("Qual a marca do veiculo?\n");
-    scanf("%c", f[i].Marca);
-    printf("Qual o ano de fabricacao do veiculo?\n");
-    scanf("%d", &f[i].AnoFabricacao);
-    printf("Qual o ano do modelo do veiculo?\n");
-    scanf("%d", &f[i].AnoModelo);
-    getchar();
-    printf("Qual a cor do veiculo?\n");
-    scanf("%c", f[i].Cor);
-    printf("Quantos km rodados tem o veiculo?\n");
-    scanf("%d", &f[i].Km);
-    getchar();
-    printf("Qual o ar-condicionado do veiculo?\n");
-    scanf("%c", f[i].ArCond);
-    getchar();
-    printf("Qual a direcao hidraulica do veiculo?\n");
-    scanf("%c", f[i].DirecaoHidraulica);
-    printf("Qual o preco do veiculo?\n");
-    scanf("%f", &f[i].Preco);
-    getchar();
-    printf("Qual a data do cadastro/entrada? No formato DD/MM/AA.\n");
-    scanf("%c", f[i].Datadecaentrada);
+    char op;
+    do
+    {
+        /*printf("Qual o codigo do veiculo?\n");
+        scanf("%d", &f[i].Codigodoveiculo);
+        getchar();
+        printf("Qual o nome do veiculo?\n");
+        scanf("%s", f[i].Carro);
+        getchar();
+        printf("Qual a marca do veiculo?\n");
+        scanf("%s", f[i].Marca);
+        printf("Qual o ano de fabricacao do veiculo?\n");
+        scanf("%d", &f[i].AnoFabricacao);
+        printf("Qual o ano do modelo do veiculo?\n");
+        scanf("%d", &f[i].AnoModelo);
+        getchar();
+        printf("Qual a cor do veiculo?\n");
+        scanf("%s", f[i].Cor);
+        printf("Quantos km rodados tem o veiculo?\n");
+        scanf("%d", &f[i].Km);
+        getchar();
+        printf("Qual o ar-condicionado do veiculo?\n");
+        scanf("%s", f[i].ArCond);
+        getchar();
+        printf("Qual a direcao hidraulica do veiculo?\n");
+        scanf("%s", f[i].DirecaoHidraulica);
+        /*printf("Qual o preco do veiculo?\n");
+        scanf("%f", &f[i].Preco);
+        getchar();
+        printf("Qual a data do cadastro/entrada? No formato DD/MM/AA.\n");
+        scanf("%s", f[i].Datadecaentrada);*/
+        getchar();
+        printf("Deseja incluir um novo veiculo?\nS - SIM\nN - NAO\n");
+        scanf("%c",&op);
 
+        if(op!='N' && op!='S')
+        {
+            do
+            {
+                getchar();
+                printf("ERRO: Opcao invalida!\nDeseja incluir um novo veiculo?\nS - SIM\nN - NAO\n");
+                scanf("%c",&op);
+            }while(op!='N' && op!='S');
+        }
+    }while(op=='S');
 }
 
 int main()
@@ -53,36 +69,37 @@ int main()
     infocarro array[1];
     int escolha,cadastro = 1;
 
-    printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
-           "2. INCLUIR DADOS NO CADASTRO EXISTENTE\n"
-           "3. CONSULTAR O CADASTRO POR CODIGO DE VEICULO\n"
-           "4. CONSULTAR O CADASTRO POR CATEGORIA E ANO DO MODELO\n"
-           "5. GERAR ARQUIVO TXT DOS VEICULOS 0 KM\n"
-           "6. SAIR");
-
-    scanf("%d",&escolha);
-    while((escolha < 1) && (escolha > 6))
+    do
     {
-        printf("Opcao invalida\n");
-        scanf("%d", &escolha);
-    }
+        printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
+               "2. INCLUIR DADOS NO CADASTRO EXISTENTE\n"
+               "3. CONSULTAR O CADASTRO POR CODIGO DE VEICULO\n"
+               "4. CONSULTAR O CADASTRO POR CATEGORIA E ANO DO MODELO\n"
+               "5. GERAR ARQUIVO TXT DOS VEICULOS 0 KM\n"
+               "6. SAIR\n");
 
-    switch(escolha)
-    {
-        case 1
-            cadastroCarro(array, cadastro);
-        break;
-        /*case 2
-        break;
-        case 3
-        break;
-        case 4
-        break;
-        case 5
-        break;
-        case 6
-        break;*/
-    }
+        scanf("%d",&escolha);
+        while((escolha < 1) && (escolha > 6))
+        {
+            printf("Opcao invalida\n");
+            scanf("%d", &escolha);
+        }
+
+        switch(escolha)
+        {
+            case 1:
+                cadastroCarro(array, cadastro);
+            break;
+            /*case 2
+            break;
+            case 3
+            break;
+            case 4
+            break;
+            case 5
+            break;*/
+        }
+    }while(escolha!=6);
 
     return 0;
 }
