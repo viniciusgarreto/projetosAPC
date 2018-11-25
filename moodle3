@@ -1,0 +1,50 @@
+typedef struct
+{
+    char nome[30];
+    float nota1;
+    float nota2;
+    float nota3;
+    int codigo;
+}Estudante;
+
+#include <stdio.h>
+int main()
+{
+    FILE *fp;
+    FILE *fp2;
+    char *nomearq;
+    char *nomearq2;
+    int n = 0,i;
+    float media[30];
+    Estudante aluno[30];
+
+    printf("Qual o nome do arquivo que voce quer acessar?\n");
+    scanf("%s", nomearq);
+    getchar();
+
+    printf("Digite o nome do arquivo que contera os codigos e as medias dos alunos: \n");
+    scanf("%s", nomearq2);
+    getchar();
+
+    fp = fopen(nomearq,"r+");
+    fp2 = fopen(nomearq2,"w");
+
+    if(fp == NULL)
+    {
+        printf("O arquivo não existe");
+    }
+    else
+    {
+        while(fscanf(fp, "%s %d %f %f %f", aluno[n].nome, &aluno[n].codigo, &aluno[n].nota1, &aluno[n].nota2, &aluno[n].nota3)  != EOF)
+        {
+            media[n]=(aluno[n].nota1+ aluno[n].nota2+ aluno[n].nota3)/3;
+            fprintf(fp2,"%d, %f\n",aluno[n].codigo,media[n]);
+            n++;
+        }
+
+    }
+    fclose(fp);
+    fclose(fp2);
+
+    return 0;
+}
