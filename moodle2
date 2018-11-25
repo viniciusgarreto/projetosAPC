@@ -1,0 +1,36 @@
+#include <stdio.h>
+int main()
+{
+    FILE *fp;
+    char *nomearq,aluno[30];
+    int N,i,j,codigo;
+    float nota[100][3];
+
+
+    printf("Qual o nome do arquivo?\n");
+    scanf("%s",nomearq);
+
+    fp=fopen(nomearq,"w");
+
+    printf("Qual o numero de alunos?\n");
+    scanf("%d",&N);
+
+    for(i=0; i<N; i++)
+    {
+        getchar();
+        printf("Qual o nome do aluno %d?\n",i+1);
+        scanf("%[^\n]s",aluno);
+        printf("Qual o codigo do aluno\n");
+        scanf("%d",&codigo);
+
+        for(j=0; j<3; j++)
+        {
+            printf("Qual a nota %d do(a) %s?\n",j+1,aluno);
+            scanf("%f",&nota[i][j]);
+        }
+        fprintf(fp,"%s, %d, %.2f, %.2f, %.2f\n",aluno,codigo,nota[i][0],nota[i][1],nota[i][2]);
+    }
+    fclose(fp);
+
+    return 0;
+}
