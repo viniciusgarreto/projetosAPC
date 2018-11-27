@@ -32,12 +32,11 @@ void buscaCodigo(infocarro a)
     
     printf("Digite o codigo do veiculo");
     scanf("%d",&codigo);
+
     
-    fread(&a,sizeof(infocarro),1,fp);
-    
-    if(codigo == a.Codigodoveiculo)
+    while(fread(&a,sizeof(infocarro),1,fp)!=0)
     {
-        while(fread(&a,sizeof(infocarro),1,fp)!=0)
+        if(codigo == a.Codigodoveiculo)
         {
             printf("%d\n",a.Codigodoveiculo);
             printf("%s",a.Carro);
@@ -51,7 +50,7 @@ void buscaCodigo(infocarro a)
             printf(a.Preco);
             printf(a.Datadecaentrada);
         }
-        
+    }
     
 }
 
