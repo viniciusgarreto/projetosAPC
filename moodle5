@@ -11,10 +11,12 @@ int main()
 {
     int i,j;
     FILE *fp;
+    FILE *fd;
     aluno a;
+    float mediaA[11],mediaP[11],media[11];
 
     fp=fopen("alunos.bin","wb");
-
+    fd=fopen("media.txt","w");
     for(i=0; i<10; i++)
     {
         printf("Informe a matricula do aluno %d: ",i+1);
@@ -30,12 +32,34 @@ int main()
             scanf("%f",&a.notatrabalho[i][j]);
         }
     }
+
+    fwrite(&a,sizeof(aluno),1,fp);
+
+    for(i=0; i<10; i++)
+    {
+        mediaA[i]=(a.notatrabalho[i][0]+a.notatrabalho[i][1]+a.notatrabalho[i][2]+a.notatrabalho[i][3]+a.notatrabalho[i][4])/5;
+    }
+
+    for(i=0; i<10; i++)
+    {
+        mediaP[i]=((2*a.nota[i][0])+(3*a.nota[i][1])+(3*a.nota[i][2]))/8;
+    }
+
+    for(i=0; i<10; i++)
+    {
+        media[i]=((2*mediaA[i])+(8*mediaP[i]))/10;
+    }
+
+    for(i=0; i<10; i++)
+    {
+        fprintf(fd,"Matricula:%d Media:%.1lf\n",a.matricula[i],media[i]);
+    }
+
     for(i=0; i<10; i++)
     {
         printf("Matricula: %d Notas: %.2f %.2f %.2f Notas dos trabalhos: %.2f %.2f %.2f %.2f %.2f\n",a.matricula[i],a.nota[i][0],a.nota[i][1],a.nota[i][2],a.notatrabalho[i][0],a.notatrabalho[i][1],a.notatrabalho[i][2],a.notatrabalho[i][3],a.notatrabalho[i][4]);
-        /*float registro[] = {matricula[i],nota[i][0],nota[i][1],nota[i][2],notatrabalho[i][0],notatrabalho[i][1],notatrabalho[i][2],notatrabalho[i][3],notatrabalho[i][4]};*/
-        fwrite(&a,sizeof(aluno),1,fp);
     }
+
     fclose(fp);
     return 0;
 }
