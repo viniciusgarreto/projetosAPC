@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+typedef struct
+{
+    int cod;
+    char depto, nome[30];
+    float sal;
+}tipoDadosFunc;
+
+int main()
+{
+    FILE *fp;
+    tipoDadosFunc funcionario;
+
+    fp=fopen("dados.bin","rb");
+    if(fp=NULL)
+    {
+        printf("Arquivo nao foi criado!");
+    }
+    else
+    {
+        fread(&funcionario,sizeof(tipoDadosFunc),1,fp);
+        printf("Codigo: %d;\n",funcionario.cod);
+        printf("Depto: %c;\n",funcionario.depto);
+        printf("Nome: %s;\n",funcionario.nome);
+        printf("Salario: %.2f\n",funcionario.sal);
+    }
+
+    fclose(fp);
+    return 0;
+}
