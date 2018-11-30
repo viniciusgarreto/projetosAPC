@@ -1,0 +1,36 @@
+#include <stdio.h>
+typedef struct
+{
+    int cod;
+    char depto, nome[30];
+    float sal;
+}tipoDadosFunc;
+
+int main()
+{
+    int deseja;
+    FILE *fp;
+    tipoDadosFunc funcionario;
+
+    fp=fopen("dados.bin","a+b");
+
+    do
+    {
+        printf("Qual o codigo do funcionario?\n");
+        scanf("%d",&funcionario.cod);
+        getchar();
+        printf("Qual o departamento do funcionario?\n");
+        scanf("%c",&funcionario.depto);
+        printf("Qual o nome do funcionario?\n");
+        getchar();
+        scanf("%[^\n]s",funcionario.nome);
+        printf("Qual o salario do funcionario?\n");
+        scanf("%f",&funcionario.sal);
+        fwrite(&funcionario,sizeof(tipoDadosFunc),1,fp);
+        printf("Deseja continuar cadastrando dados? 1-SIM 0-NAO\n");
+        scanf("%d",&deseja);
+    }while(deseja==1);
+    fclose(fp);
+
+    return 0;
+}
