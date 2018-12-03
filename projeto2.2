@@ -1,5 +1,15 @@
-typedef struct
-{
+/*
+• Algoritmos e Programacao de Computadores - 2/2018
+• Aluno(a): José Vinícius Garreto Costa
+• Matricula: 18/0123734
+• Turma: B
+• Descricao: Projeto número 2: Registro de especificações de carros
+*/
+
+
+
+typedef struct                    /*Struct para cadastro das informações*/
+{                                 /*pedidas ao usuario na função menu   */
     int Codigodoveiculo;
     char Carro[16];
     char Marca[16];
@@ -17,14 +27,14 @@ typedef struct
 #include <stdlib.h>
 #include<string.h>
 
-#ifdef _WIN32
-    #define CLEAR "cls"
+#ifdef _WIN32              /*Def para o clear funcionar      */
+    #define CLEAR "cls"    /*tanto no windows quanto no linux*/
 #else
     #define CLEAR "clear"
 #endif
 
-void novocadastroCarro(infocarro a,int escolha)
-{
+void novocadastroCarro(infocarro a,int escolha)                 /*Função que salva as informações fornecidas pelo usuario*/
+{                                                               /*no terminal na struct                                  */
     char op, str[]="VEICULOS.bin";
     FILE *fp;
     if(escolha==2)
@@ -49,13 +59,12 @@ void novocadastroCarro(infocarro a,int escolha)
 
     do
     {
-
         system (CLEAR);
         printf("Qual o codigo do veiculo?\n");
         scanf("%d", &a.Codigodoveiculo);
-        while(a.Codigodoveiculo<=0)
-        {
-            printf("O valor nao pode ser menor ou igual a 0!\n");
+        while(a.Codigodoveiculo<=0)                                 /*Durante essa função as estruturas de repetições foram usadas para garantir      */
+        {                                                           /*que o usuario não digite um valor menor que 0 para os inteiros ou float e também*/
+            printf("O valor nao pode ser menor ou igual a 0!\n");   /*para não deixar informações vazias com barra de espaço ou enter                 */
             printf("Digite um novo codigo!\n");
             scanf("%d", &a.Codigodoveiculo);
         }
@@ -167,26 +176,25 @@ void novocadastroCarro(infocarro a,int escolha)
             }while(op!='N' && op!='S' && op!='n' && op!='s');
         }
     }while(op=='S' || op=='s');
-    menu();
     fclose(fp);
+    menu();
 }
 
-void buscaCodigo(infocarro a)
-{
+void buscaCodigo(infocarro a)                                                         /*Função que busca o código de um vaículo já registrado e*/
+{                                                                                     /*fornece no terminal para visualização do usuario       */
     int codigo;
     FILE *fp;
     char op;
     system (CLEAR);
     fp=fopen("VEICULOS.bin","rb");
 
-    if(fp==NULL)
-    {
-        printf("ERRO: Nao existe arquivo! Aperte enter para voltar pro menu!\n");
+    if(fp==NULL)                                                                      /*Sempre que em uma função que necessita de um arquivo previamente criado  */
+    {                                                                                 /* é utilizada uma estrutura condicional para averiguar se o arquivo existe*/
+        printf("ERRO: Nao existe arquivo! Aperte enter para voltar pro menu!\n");     /* caso não existe o arquivo retorna NULL e volta para o menu              */
         getchar();
         getchar();
         menu();
     }
-
 
     do
     {
@@ -231,12 +239,10 @@ void buscaCodigo(infocarro a)
     menu();
 }
 
-void consultacategoria(infocarro a)
-{
-    int categoria,ano,contador=0;
+void consultacategoria(infocarro a)                              /*Função que cosulta um determinado veículo como na função 3, porem nessa por categoria */
+    int categoria,ano,contador=0;                                /*podendo ela ser 1 ou 2 relativo a 0km ou não respectivamente                          */
     FILE *fp;
     char simounao;
-
 
     do
     {
@@ -272,7 +278,7 @@ void consultacategoria(infocarro a)
             {
                 printf("Codigo: %d\n",a.Codigodoveiculo);
                 printf("Modelo: %s\n",a.Carro);
-                printf("Preco: %.2f\n",a.Preco);
+                printf("Preco: R%%.2f\n",a.Preco);
                 printf("\n");
                 contador++;
             }
@@ -280,7 +286,7 @@ void consultacategoria(infocarro a)
             {
                 printf("Codigo: %d\n",a.Codigodoveiculo);
                 printf("Modelo: %s\n",a.Carro);
-                printf("Preco: %.2f\n",a.Preco);
+                printf("Preco: R$%.2f\n",a.Preco);
                 printf("\n");
                 contador++;
             }
@@ -300,14 +306,58 @@ void consultacategoria(infocarro a)
             scanf("%c",&simounao);
         }
     }while(simounao=='S' || simounao=='s');
-
     fclose(fp);
     menu();
 }
 
-void menu()
+void arquivotexto(infocarro a)                   /*Nessa função é gerado um arquivo de texto contendo as informações de determinado veículo em uma lista*/
 {
-    infocarro a;
+    system (CLEAR);
+    FILE *arquivobin;
+    FILE *arquivotxt;
+    int contador=0;
+    arquivobin=fopen("VEICULOS.bin","rb");
+
+    if(arquivobin == NULL)
+    {
+        printf("O arquivo nao foi criado!\n");
+        printf("PRESS ENTER\n");
+        getchar();
+        getchar();
+        menu();
+    }
+    else
+    {
+        arquivotxt=fopen("VEICULOS_NOVOS.txt","w+");
+    }
+    fprintf(arquivotxt,"*** LISTAGEM DE VEICULOS 0 KM ***\n");
+    fprintf(arquivotxt,"ANO     CODIGO     CARRO               PRECO\n");
+    while(fread(&a,sizeof(infocarro),1,arquivobin)!=0)
+    {
+        contador++;
+        if(a.Km == 0 && contador!=2)
+        {
+            fprintf(arquivotxt,"%d    %d        %s               R$%.2f\n",a.AnoFabricacao,a.Codigodoveiculo,a.Carro,a.Preco);
+        }
+        else
+        {
+            if(a.Km == 0 && contador == 2)/*POR PURO TOQUE NÃO ME JULGUE(o segundo carro apresentava uma barra de espaço a menos antes do preço*/
+            {
+                fprintf(arquivotxt,"%d    %d        %s              R$%.2f\n",a.AnoFabricacao,a.Codigodoveiculo,a.Carro,a.Preco);
+            }
+        }
+    }
+    printf("Arquivo de texto gerado!\nPRESS ENTER\n");
+    getchar();
+    getchar();
+    fclose(arquivobin);
+    fclose(arquivotxt);
+    menu();
+}
+
+void menu()                                                                 /*Função menu. Apresenta as opções iniciais do código para o usuário*/
+{                                                                           /*por ser constantemente chamada por outras funções decidi tira-la  */
+    infocarro a;                                                            /*main e criar uma função exclusiva para ela                        */
     char escolha;
     system (CLEAR);
     printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
@@ -318,13 +368,12 @@ void menu()
             "6. SAIR\n");
 
     scanf("%d",&escolha);
-
-    while((escolha < 1) && (escolha > 6))
+    while((escolha < 1) || (escolha > 6))
     {
         printf("Opcao invalida\n");
+        printf("Digite um novo valor de 1 a 6!");
         scanf("%d", &escolha);
     }
-
     switch(escolha)
     {
         case 1:
@@ -339,8 +388,9 @@ void menu()
         case 4:
             consultacategoria(a);
         break;
-        /*case 5
-        break;*/
+        case 5:
+            arquivotexto(a);
+        break;
         case 6:
         default:
             break;
@@ -349,8 +399,6 @@ void menu()
 
 int main()
 {
-
     menu();
-
     return 0;
 }
