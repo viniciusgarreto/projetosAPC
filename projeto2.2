@@ -1,0 +1,356 @@
+typedef struct
+{
+    int Codigodoveiculo;
+    char Carro[16];
+    char Marca[16];
+    int AnoFabricacao;
+    int AnoModelo;
+    char Cor[16];
+    int Km;
+    char ArCond;
+    char DirecaoHidraulica;
+    float Preco;
+    char Datadecaentrada[10];
+}infocarro;
+
+#include<stdio.h>
+#include <stdlib.h>
+#include<string.h>
+
+#ifdef _WIN32
+    #define CLEAR "cls"
+#else
+    #define CLEAR "clear"
+#endif
+
+void novocadastroCarro(infocarro a,int escolha)
+{
+    char op, str[]="VEICULOS.bin";
+    FILE *fp;
+    if(escolha==2)
+    {
+        fp=fopen(str,"r+b");
+
+        if(fp==NULL)
+        {
+            printf("O cadastro atual nao possui dados!\n");
+            fp=fopen(str,"wb");
+        }
+        else
+        {
+            fclose(fp);
+            fp=fopen(str,"ab");
+        }
+    }
+    if(escolha==1)
+    {
+        fp=fopen(str,"wb");
+    }
+
+    do
+    {
+
+        system (CLEAR);
+        printf("Qual o codigo do veiculo?\n");
+        scanf("%d", &a.Codigodoveiculo);
+        while(a.Codigodoveiculo<=0)
+        {
+            printf("O valor nao pode ser menor ou igual a 0!\n");
+            printf("Digite um novo codigo!\n");
+            scanf("%d", &a.Codigodoveiculo);
+        }
+        getchar();
+        printf("Qual o nome do veiculo?\n");
+        a.Carro[0]='\0';
+        scanf("%[^\n]s", a.Carro);
+        while(a.Carro[0]=='\0' || a.Carro[0]==' ')
+        {
+                getchar();
+                printf("Digite um nome valido!-SEM ESPACO-\n");
+                scanf("%[^\n]s", a.Carro);
+        }
+        getchar();
+        printf("Qual a marca do veiculo?\n");
+        a.Marca[0]='\0';
+        scanf("%[^\n]s", a.Marca);
+        while(a.Marca[0]=='\0' || a.Marca[0]==' ')
+        {
+                getchar();
+                printf("Digite uma marca valida!-SEM ESPACO-\n");
+                scanf("%[^\n]s", a.Marca);
+        }
+        printf("Qual o ano de fabricacao do veiculo?\n");
+        a.AnoFabricacao='\0';
+        scanf("%d", &a.AnoFabricacao);
+        while(a.AnoFabricacao<=0)
+        {
+            printf("O valor nao pode ser menor ou igual a 0!\n");
+            printf("Digite um novo ano!\n");
+            scanf("%d", &a.AnoFabricacao);
+        }
+        printf("Qual o ano do modelo do veiculo?\n");
+        a.AnoModelo='\0';
+        scanf("%d", &a.AnoModelo);
+        while(a.AnoModelo<=0)
+        {
+            printf("O valor nao pode ser menor ou igual a 0!\n");
+            printf("Digite um novo ano!\n");
+            scanf("%d", &a.AnoModelo);
+        }
+        getchar();
+        printf("Qual a cor do veiculo?\n");
+        a.Cor[0]='\0';
+        scanf("%[^\n]s", a.Cor);
+        while(a.Cor[0]=='\0' || a.Cor[0]==' ')
+        {
+                getchar();
+                printf("Digite uma cor valida!-SEM ESPACO-\n");
+                scanf("%[^\n]s", a.Cor);
+        }
+        printf("Quantos km rodados tem o veiculo?\n");
+        a.Km='\0';
+        scanf("%d", &a.Km);
+        while(a.Km<0)
+        {
+            printf("O valor nao pode ser menor que 0!\n");
+            printf("Digite um novo valor!\n");
+            scanf("%d", &a.Km);
+        }
+        getchar();
+        printf("O veiculo tem ar-condicionado? -S ou s=SIM,N ou n=NAO-\n");
+        a.ArCond='\0';
+        scanf("%c", &a.ArCond);
+        while(a.ArCond!='S' && a.ArCond!='s' && a.ArCond!='N' && a.ArCond!='n')
+        {
+            getchar();
+            printf("Digite apenas S s N n!\n");
+            printf("O veiculo tem ar-condicionado?\n");
+            a.ArCond='\0';
+            scanf("%c", &a.ArCond);
+        }
+        getchar();
+        printf("O veiculo tem direcao-hidraulica? -S=SIM,N=NAO-\n");
+        a.DirecaoHidraulica='\0';
+        scanf("%c", &a.DirecaoHidraulica);
+        while(a.DirecaoHidraulica!='S' && a.DirecaoHidraulica!='s' && a.DirecaoHidraulica!='N' && a.DirecaoHidraulica!='n')
+        {
+            getchar();
+            printf("Digite apenas S s N n!\n");
+            printf("O veiculo tem direcao-hidraulica?\n");
+            a.DirecaoHidraulica='\0';
+            scanf("%c", &a.DirecaoHidraulica);
+        }
+        printf("Qual o preco do veiculo?\n");
+        a.Preco='\0';
+        scanf("%f", &a.Preco);
+        while(a.Preco<0)
+        {
+            printf("O valor nao pode ser menor que 0!\n");
+            printf("Digite um novo preco!\n");
+            scanf("%d", &a.Preco);
+        }
+        getchar();
+        printf("Qual a data do cadastro/entrada? No formato DD/MM/AA.\n");
+        scanf("%s", a.Datadecaentrada);
+        getchar();
+        printf("Deseja incluir um novo veiculo?\nS - SIM\nN - NAO\n");
+        scanf("%c",&op);
+        fwrite(&a,sizeof(infocarro),1,fp);
+
+        if(op!='N' && op!='S' && op!='n' && op!='s')
+        {
+            do
+            {
+                getchar();
+                printf("ERRO: Opcao invalida!\nDeseja incluir um novo veiculo?\nS ou s - SIM\nN ou n- NAO\n");
+                scanf("%c",&op);
+            }while(op!='N' && op!='S' && op!='n' && op!='s');
+        }
+    }while(op=='S' || op=='s');
+    menu();
+    fclose(fp);
+}
+
+void buscaCodigo(infocarro a)
+{
+    int codigo;
+    FILE *fp;
+    char op;
+    system (CLEAR);
+    fp=fopen("VEICULOS.bin","rb");
+
+    if(fp==NULL)
+    {
+        printf("ERRO: Nao existe arquivo! Aperte enter para voltar pro menu!\n");
+        getchar();
+        getchar();
+        menu();
+    }
+
+
+    do
+    {
+        printf("Digite o codigo do veiculo\n");
+        scanf("%d",&codigo);
+        while(fread(&a,sizeof(infocarro),1,fp)!=0)
+        {
+            if(codigo == a.Codigodoveiculo)
+            {
+                printf("Codigo: %d\n",a.Codigodoveiculo);
+                printf("Modelo: %s\n",a.Carro);
+                printf("Marca: %s\n",a.Marca);
+                printf("Ano de fabricacao: %d\n",a.AnoFabricacao);
+                printf("Ano do modelo: %d\n",a.AnoModelo);
+                printf("Cor: %s\n",a.Cor);
+                printf("Km's rodados: %d\n",a.Km);
+                printf("Ar-condicionado: %c\n",a.ArCond);
+                printf("Direcao-hidraulica: %c\n",a.DirecaoHidraulica);
+                printf("Preco: R$%.2f\n",a.Preco);
+                printf("Data de cadastro: %s\n",a.Datadecaentrada);
+                break;
+            }
+            else
+            {
+                printf("ERRO: Codigo nao encontrado!");
+            }
+        }
+        getchar();
+        printf("Deseja fazer outra consulta?\nS - SIM\nN - NAO\n");
+        scanf("%c",&op);
+        if(op!='N' && op!='S' && op!='n' && op!='s')
+        {
+            do
+            {
+                getchar();
+                printf("ERRO: Opcao invalida!\nDeseja fazer outra consulta?\nS ou s - SIM\nN ou n- NAO\n");
+                scanf("%c",&op);
+            }while(op!='N' && op!='S' && op!='n' && op!='s');
+        }
+    }while(op=='S' || op=='s');
+    fclose(fp);
+    menu();
+}
+
+void consultacategoria(infocarro a)
+{
+    int categoria,ano,contador=0;
+    FILE *fp;
+    char simounao;
+
+
+    do
+    {
+        fp=fopen("VEICULOS.bin","rb");
+        system (CLEAR);
+        contador=0;
+        if(fp==NULL)
+        {
+            printf("ERRO: Nao existe arquivo!");
+            menu();
+        }
+        else
+        {
+            printf("Qual a categoria do veiculo que deseja buscar?\n1-Novos\n2-Semi-novos\n");
+            scanf("%d",&categoria);
+            while(categoria!=1 && categoria!=2)
+            {
+                printf("Valor invalido! Digite nova categoria que deseja buscar?\n1-Novos\n2-Semi-novos\n");
+                scanf("%d",&categoria);
+            }
+            printf("Qual o ano do veiculo que deseja buscar?\n");
+            scanf("%d",&ano);
+            while(ano<=0)
+            {
+                printf("Valor invalido! Qual o ano do veiculo que deseja buscar? -Maior que 0-\n");
+                scanf("%d",&ano);
+            }
+        }
+        system (CLEAR);
+        while(fread(&a,sizeof(infocarro),1,fp)!=0)
+        {
+            if(categoria == 1 && ano == a.AnoModelo && a.Km == 0)
+            {
+                printf("Codigo: %d\n",a.Codigodoveiculo);
+                printf("Modelo: %s\n",a.Carro);
+                printf("Preco: %.2f\n",a.Preco);
+                printf("\n");
+                contador++;
+            }
+            else if(categoria == 2 && ano == a.AnoModelo && a.Km > 0)
+            {
+                printf("Codigo: %d\n",a.Codigodoveiculo);
+                printf("Modelo: %s\n",a.Carro);
+                printf("Preco: %.2f\n",a.Preco);
+                printf("\n");
+                contador++;
+            }
+        }
+        if(contador==0)
+        {
+            printf("ERRO: Nao ha nenhum veiculo cadastrado nessa categoria e ano do modelo!\n");
+        }
+        printf("Veiculos listados: %d\n",contador);
+        printf("Deseja realizar outra consulta?(S-SIM/N-NAO)\n");
+        getchar();
+        scanf("%c",&simounao);
+        while(simounao!='S' && simounao!='N' && simounao!='s' && simounao!='n')
+        {
+            printf("Opcao invalida! Deseja realizar outra consulta?(S-SIM/N-NAO)\n");
+            getchar();
+            scanf("%c",&simounao);
+        }
+    }while(simounao=='S' || simounao=='s');
+
+    fclose(fp);
+    menu();
+}
+
+void menu()
+{
+    infocarro a;
+    char escolha;
+    system (CLEAR);
+    printf("1. CRIAR E INICIAR CADASTRO NOVO\n"
+            "2. INCLUIR DADOS NO CADASTRO EXISTENTE\n"
+            "3. CONSULTAR O CADASTRO POR CODIGO DE VEICULO\n"
+            "4. CONSULTAR O CADASTRO POR CATEGORIA E ANO DO MODELO\n"
+            "5. GERAR ARQUIVO TXT DOS VEICULOS 0 KM\n"
+            "6. SAIR\n");
+
+    scanf("%d",&escolha);
+
+    while((escolha < 1) && (escolha > 6))
+    {
+        printf("Opcao invalida\n");
+        scanf("%d", &escolha);
+    }
+
+    switch(escolha)
+    {
+        case 1:
+            novocadastroCarro(a,escolha);
+        break;
+        case 2:
+            novocadastroCarro(a,escolha);
+        break;
+        case 3:
+            buscaCodigo(a);
+        break;
+        case 4:
+            consultacategoria(a);
+        break;
+        /*case 5
+        break;*/
+        case 6:
+        default:
+            break;
+    }
+}
+
+int main()
+{
+
+    menu();
+
+    return 0;
+}
